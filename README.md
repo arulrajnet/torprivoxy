@@ -1,16 +1,121 @@
 torprivoxy
 ==========
+This cotainer have TOR and Privoxy bundeled together.
 
 ### How to Use
 
-### Verify
+```
+docker run -d \ 
+-p 8118:8118 -p 9050:9050 -p 9051:9051 \
+--name tor -i arulrajnet/torprivoxy
+```
 
-### Roadmap
+Binding port 9050 and 9051 are optional. 9051 is the controlport of TOR Network. Using that you can forcefully regenerate the TOR ip. Read more about [tor_ip_renew.py][tor_ip_renew] 
+
+Verify
+-------
+
+How to cross check are you getting ip from Tor or not.
+
+__Check your IP without TOR__
+
+```
+curl http://curlmyip.com
+```
+
+__Check with TOR__
+
+```
+curl -v --socks5-hostname localhost:9050 http://curlmyip.com
+```
 
 
+__Check with privoxy__
+
+```
+export http_proxy=http://localhost:8118/
+curl http://curlmyip.com
+unset http_proxy
+
+or
+
+curl -x http://localhost:8118 -L http://curlmyip.com
+```
 
 
-##### Author
+### Debug
+
+If the above step is not successed you have to verify the log files.
+
+```
+docker exec -it tor /bin/bash
+```
+
+All the log files in the `/tmp` folder of container. 
+
+**To restart TOR and Provoxy**
+
+```
+supervisionctl
+supervisor> status
+supervisor> restart tor
+supervisor> restart privoxy
+```
+
+Global Proxy
+------------
+
+You can set privoxy as a global proxy so that all your traffic goes via TOR
+
+###In Ubuntu
+
+Open `/etc/environment`
+
+```
+http_proxy="http://127.0.0.1:8118"
+https_proxy="http://127.0.0.1:8118"
+ftp_proxy="http://127.0.0.1:8118"
+HTTP_PROXY="http://127.0.0.1:8118"
+HTTPS_PROXY="http://127.0.0.1:8118"
+FTP_PROXY="http://127.0.0.1:8118"
+_JAVA_OPTIONS="-Dhttp.proxyHost=localhost -Dhttp.proxyPort=8118"
+```
+
+Add this at the EOF.
+
+Then `source /etc/environment`
+
+###In CentOS
+
+Create file `/etc/profile.d/proxy.sh` Then put the below content and save.
+
+```
+http_proxy="http://127.0.0.1:8118"
+https_proxy="http://127.0.0.1:8118"
+ftp_proxy="http://127.0.0.1:8118"
+HTTP_PROXY="http://127.0.0.1:8118"
+HTTPS_PROXY="http://127.0.0.1:8118"
+FTP_PROXY="http://127.0.0.1:8118"
+_JAVA_OPTIONS=$_JAVA_OPTIONS" -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8118"
+
+export http_proxy https_proxy ftp_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY _JAVA_OPTIONS
+```
+
+Then `source /etc/profile.d/proxy.sh` OR you can set the same in `.bashrc` or `.bash_profile`
+
+Roadmap
+-------
+
+* Configurable Proxy Port and Control password from env
+* Lean size container
+
+License
+-------
+
+[MIT License][mit_license]. 
+
+
+**Author**
 
 | [![follow][avatar]][twitterhandle] |
 |---|
@@ -18,3 +123,6 @@ torprivoxy
 
 [twitterhandle]: https://twitter.com/arulrajnet "Follow @arulrajnet on Twitter"
 [avatar]: https://avatars0.githubusercontent.com/u/834529?s=70
+[mit_license]: https://github.com/arulrajnet/torprivoxy/master/LICENSE
+[PyTorCtl]: https://github.com/aaronsw/pytorctl
+[tor_ip_renew]: https://gist.github.com/arulrajnet/9df385cdb70d8a945686
