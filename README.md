@@ -1,19 +1,33 @@
 torprivoxy
 ==========
-This cotainer have TOR and Privoxy bundeled together.
+This container have TOR and Privoxy bundled together.
+
+Github Repo [https://github.com/arulrajnet/torprivoxy][torprivoxy_repo]
 
 ### How to Use
 
 ```
-docker run -d \ 
+docker run -d \
 -p 8118:8118 -p 9050:9050 -p 9051:9051 \
---name tor -i arulrajnet/torprivoxy
+--name tor -i arulrajnet/torprivoxy:latest
 ```
 
 Binding port 9050 and 9051 are optional. 9051 is the controlport of TOR Network. Using that you can forcefully regenerate the TOR ip. Read more about [tor_ip_renew.py][tor_ip_renew] 
 
+### Docker Tags
+
+There are two flavor of container 
+
+| Tag    | Base Image    | Size     |
+|--------|:-------------:|---------:|
+| latest | debian:wheezy | 180 MB   |
+| wheezy | debian:wheezy | 180 MB   |
+| jessie | debian:jessie | 228.1 MB |
+
+This is the very lean image for TOR with Privoxy currently available in [docker hub][docker_hub].
+
 Verify
--------
+------
 
 How to cross check are you getting ip from Tor or not.
 
@@ -45,7 +59,7 @@ curl -x http://localhost:8118 -L http://curlmyip.com
 
 ### Debug
 
-If the above step is not successed you have to verify the log files.
+If the above step is not success you have to verify the log files.
 
 ```
 docker exec -it tor /bin/bash
@@ -107,7 +121,6 @@ Roadmap
 -------
 
 * Configurable Proxy Port and Control password from env
-* Lean size container
 
 License
 -------
@@ -123,6 +136,8 @@ License
 
 [twitterhandle]: https://twitter.com/arulrajnet "Follow @arulrajnet on Twitter"
 [avatar]: https://avatars0.githubusercontent.com/u/834529?s=70
+[torprivoxy_repo]:https://github.com/arulrajnet/torprivoxy
+[docker_hub]: https://registry.hub.docker.com/u/arulrajnet/torprivoxy
 [mit_license]: https://github.com/arulrajnet/torprivoxy/master/LICENSE
 [PyTorCtl]: https://github.com/aaronsw/pytorctl
 [tor_ip_renew]: https://gist.github.com/arulrajnet/9df385cdb70d8a945686
