@@ -18,11 +18,13 @@ Binding port 9050 and 9051 are optional. 9051 is the controlport of TOR Network.
 
 There are two flavor of container 
 
+```
 | Tag    | Base Image    | Size     |
 |--------|:-------------:|---------:|
 | latest | debian:wheezy | 180 MB   |
 | wheezy | debian:wheezy | 180 MB   |
 | jessie | debian:jessie | 228.1 MB |
+```
 
 This is the very lean image for TOR with Privoxy currently available in [docker hub][docker_hub].
 
@@ -134,10 +136,11 @@ License
 |---|
 | [@arulrajnet][twitterhandle] |
 
+
 [twitterhandle]: https://twitter.com/arulrajnet "Follow @arulrajnet on Twitter"
 [avatar]: https://avatars0.githubusercontent.com/u/834529?s=70
+[mit_license]: https://raw.githubusercontent.com/arulrajnet/torprivoxy/master/LICENSE
 [torprivoxy_repo]:https://github.com/arulrajnet/torprivoxy
 [docker_hub]: https://registry.hub.docker.com/u/arulrajnet/torprivoxy
-[mit_license]: https://github.com/arulrajnet/torprivoxy/master/LICENSE
 [PyTorCtl]: https://github.com/aaronsw/pytorctl
 [tor_ip_renew]: https://gist.github.com/arulrajnet/9df385cdb70d8a945686
