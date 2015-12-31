@@ -1,0 +1,10 @@
+torprivoxy:
+  build: .
+  ports:
+    - 8118:8118
+    - 9050:9050
+    - 9051:9051
+  hostname: torprivoxy
+  dns:
+    - 8.8.8.8
+    - 9.9.9.9

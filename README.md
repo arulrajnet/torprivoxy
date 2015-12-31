@@ -7,6 +7,7 @@ Github Repo [https://github.com/arulrajnet/torprivoxy][torprivoxy_repo]
 ### How to Use
 
 ```
+
 docker run -d \
 -p 8118:8118 -p 9050:9050 -p 9051:9051 \
 --name tor -i arulrajnet/torprivoxy:latest
@@ -18,13 +19,13 @@ Binding port 9050 and 9051 are optional. 9051 is the controlport of TOR Network.
 
 There are two flavor of container 
 
-```
+
 | Tag    | Base Image    | Size     |
 |--------|:-------------:|---------:|
 | latest | debian:wheezy | 180 MB   |
 | wheezy | debian:wheezy | 180 MB   |
 | jessie | debian:jessie | 228.1 MB |
-```
+
 
 This is the very lean image for TOR with Privoxy currently available in [docker hub][docker_hub].
 
@@ -49,12 +50,15 @@ curl -v --socks5-hostname localhost:9050 http://curlmyip.com
 __Check with privoxy__
 
 ```
+
 export http_proxy=http://localhost:8118/
 curl http://curlmyip.com
 unset http_proxy
+```
 
 or
 
+```
 curl -x http://localhost:8118 -L http://curlmyip.com
 ```
 
@@ -72,6 +76,7 @@ All the log files in the `/tmp` folder of container.
 **To restart TOR and Provoxy**
 
 ```
+
 supervisionctl
 supervisor> status
 supervisor> restart tor
@@ -83,11 +88,13 @@ Global Proxy
 
 You can set privoxy as a global proxy so that all your traffic goes via TOR
 
-###In Ubuntu
+### In Ubuntu
 
 Open `/etc/environment`
 
+
 ```
+
 http_proxy="http://127.0.0.1:8118"
 https_proxy="http://127.0.0.1:8118"
 ftp_proxy="http://127.0.0.1:8118"
@@ -101,11 +108,12 @@ Add this at the EOF.
 
 Then `source /etc/environment`
 
-###In CentOS
+### In CentOS
 
 Create file `/etc/profile.d/proxy.sh` Then put the below content and save.
 
 ```
+
 http_proxy="http://127.0.0.1:8118"
 https_proxy="http://127.0.0.1:8118"
 ftp_proxy="http://127.0.0.1:8118"
@@ -115,9 +123,12 @@ FTP_PROXY="http://127.0.0.1:8118"
 _JAVA_OPTIONS=$_JAVA_OPTIONS" -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8118"
 
 export http_proxy https_proxy ftp_proxy HTTP_PROXY HTTPS_PROXY FTP_PROXY _JAVA_OPTIONS
+
 ```
 
+
 Then `source /etc/profile.d/proxy.sh` OR you can set the same in `.bashrc` or `.bash_profile`
+
 
 Roadmap
 -------
